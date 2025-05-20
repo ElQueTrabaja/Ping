@@ -8,6 +8,7 @@ class GameSprite(sprite.Sprite):
         sprite.Sprite.__init__(self)
 
         # cada objeto debe almacenar una propiedad image
+        print(player_image)
         self.image = transform.scale(image.load(player_image), (size_x, size_y))
         self.speed = player_speed
 
@@ -20,14 +21,40 @@ class GameSprite(sprite.Sprite):
     def reset(self):
         win.blit(self.image, (self.rect.x, self.rect.y))
 
+class Player1(GameSprite):
+    def update(self):
+        keys = key.get_pressed()
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < 695:
+            self.rect.y += self.speed
+        wins1 = font.render(
+            'Aciertos:'+ str(count_1), True, (255, 255, 255)
+        )
+        win.blit(wins1, (40, 50))
+
+class Player2(GameSprite):
+    def update(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < 695:
+            self.rect.y += self.speed
+        wins2 = font.render(
+            'Aciertos:'+ str(count_2), True, (255, 255, 255)
+        )
+        win.blit(wins2, (450, 50))
+
 WIDTH, HEIGHT = 700, 500
 win = display.set_mode((WIDTH, HEIGHT))
 display.set_caption("Ping")
 count_1 = 0
 count_2 = 0
 background = transform.scale(image.load('a.jpg'), (700, 500))
-
-
+font.init()
+font = font.SysFont('Arial', 50)
+play1 = Player1('b.jpg', 50, 250, 50, 100, 2)
+play2 = Player2('b.jpg', 650, 250, 50, 100, 2)
 
 
 clock = time.Clock()
@@ -39,6 +66,11 @@ while game != False:
         if e.type == QUIT:
             game = False
     if finish != True:
+        play1.update()
+        play1.reset()
+        play2.update()
+        play2.reset()
         pass
     display.update()
     clock.tick(60)
+
