@@ -45,17 +45,25 @@ class Player2(GameSprite):
         )
         win.blit(wins2, (450, 50))
 
+class bola(GameSprite):
+    def update(self):
+        if self.rect.x <= 5:
+            count_2 += 1
+        if self.rect.x >= 695:
+            count_1 += 1
+
 WIDTH, HEIGHT = 700, 500
 win = display.set_mode((WIDTH, HEIGHT))
 display.set_caption("Ping")
 count_1 = 0
 count_2 = 0
+vel = 2
 background = transform.scale(image.load('a.jpg'), (700, 500))
 font.init()
 font = font.SysFont('Arial', 50)
-play1 = Player1('b.jpg', 50, 250, 50, 100, 2)
-play2 = Player2('b.jpg', 650, 250, 50, 100, 2)
-
+play1 = Player1('b.jpg', 50, 250, 30, 150, 3)
+play2 = Player2('b.jpg', 600, 250, 30, 150, 3)
+pelota = bola('p.jpg', 350, 250, 75, 75, vel)
 
 clock = time.Clock()
 finish = False
@@ -70,7 +78,7 @@ while game != False:
         play1.reset()
         play2.update()
         play2.reset()
-        pass
+        pelota.update()
+        pelota.reset()
     display.update()
     clock.tick(60)
-
